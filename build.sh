@@ -2,14 +2,17 @@
 
 set -e
 
-MACHINE=$(uname -m)
-SYSTEM=$(uname -s | cut -d'_' -f1)
+export MACHINE=$(uname -m)
+export SYSTEM=$(uname -s | cut -d'_' -f1)
 
 METIS_VERSION=5.1.0
 export MUMPS_VERSION=5.3.4
 export MUMPS_MAJOR_VERSION=$(echo ${MUMPS_VERSION} | cut -d'.' -f1)
 MAKE=$([ "${SYSTEM}" = 'MINGW64' ] && echo 'mingw32-make' || echo 'make')
 PREFIX=$(cd $(dirname "${BASH_SOURCE:-$0}") && pwd)
+
+# Force to use x86_64 on Mac with Apple silicon
+ARCH=$([ "${SYSTEM}" = 'Darwin' -a "${MACHINE}" = 'arm64' ] && echo 'arch -x86_64' || true)
 
 build_metis_64() {
     # Download and unpack
@@ -19,12 +22,12 @@ build_metis_64() {
 
     # Build METIS static library
     perl -e 's/#define IDXTYPEWIDTH 32/#define IDXTYPEWIDTH 64/g' -pi include/metis.h
-    make config
-    make
+    ${ARCH} make config
+    ${ARCH} make
 
     # Copy header and static library
-    mkdir -p "${PREFIX}/lib" "${PREFIX}/include"
-    cp build/${SYSTEM}-${MACHINE}/libmetis/libmetis.a "${PREFIX}/lib"
+    mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}" "${PREFIX}/include"
+    cp build/${SYSTEM}-${MACHINE}/libmetis/libmetis.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
     cp include/metis.h "${PREFIX}/include"
     cd $PREFIX
 }
@@ -32,11 +35,8 @@ build_metis_64() {
 cp Makefile-${SYSTEM}.inc MUMPS/Makefile.inc
 cp src/Makefile MUMPS/src/Makefile
 
-# Force to use x86_64 on Mac with Apple silicon
-ARCH=$([ "${SYSTEM}" = 'Darwin' -a "${MACHINE}" = 'arm64' ] && echo 'arch -x86_64' || true)
-
 # Build metis with 64-bit integer
-[ -f "$PREFIX/include/metis.h" -a -f "$PREFIX/lib/libmetis.a" ] || build_metis_64
+[ -f "$PREFIX/include/metis.h" -a -f "$PREFIX/lib/${SYSTEM}-${MACHINE}/libmetis.a" ] || build_metis_64
 
 # Build shared objects for single-precision real and complex arithemetic
 ${ARCH} make -C MUMPS clean

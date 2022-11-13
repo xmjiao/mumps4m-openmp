@@ -1,19 +1,21 @@
 #
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
-# These settings for a PC under Debian/linux with MATLAB and gfortran.
-# METIS will be built from source code using 64-bit integer. BLAS and
+# These settings for a PC under Debian/linux with gfortran and MATLAB.
+%
+% sudo apt install gfortran cmake
+%
+# METIS is built from source code using 64-bit integer. BLAS and
 # LAPACK use libmwblas and libmwlapack distributed with MATLAB, which
-# is based on MKL with 64-bit integers. MATLAB is assumed to be installed
-# at /usr/local/MATLAB/<Release>. If multiple MATLAB versions are installed,
-# then the newest version will be used.
+# is based on MKL with 64-bit integers. MATLAB is found by using the
+# realpath of the `matlab` command in the path.
 
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
 LPORD    = -L$(LPORDDIR) -lpord
 
-LMETISDIR = $(topdir)/../lib
+LMETISDIR = $(topdir)/../lib/$(SYSTEM)
 IMETIS    = -I$(topdir)/../include
 LMETIS    = -lmetis
 
@@ -42,11 +44,9 @@ FLFLAGS = -shared -Wl,--no-undefined
 
 AR = ar vr 
 RANLIB = ranlib
-#LAPACK = -llapack
 
-MATLAB_VERSION := $(shell ls -r /usr/local/MATLAB/ | cut -d/ -f1)
-MATLAB_ROOT := /usr/local/MATLAB/$(MATLAB_VERSION)
-LAPACK = -L$(MATLAB_ROOT)/bin/glnxa64 -Wl,-rpath=/usr/local/MATLAB/$(MATLAB_VERSION)/bin/glnxa64 -lmwlapack
+MATLAB_LIBDIR := $(shell dirname $(realpath /usr/local/bin/matlab))/glnxa64
+LAPACK = -L$(MATLAB_LIBDIR) -Wl,-rpath=$(MATLAB_LIBDIR) -lmwlapack
 
 
 INCSEQ = -I$(topdir)/libseq
@@ -61,7 +61,7 @@ CDEFS   = -DAdd_
 
 #Begin Optimized options
 OPTF    = -O3 -fopenmp -fdefault-integer-8
-OPTL    = -O3 -fopenmp 
+OPTL    = -O3 -fopenmp
 OPTC    = -O3 -fopenmp -DINTSIZE64 -DPORD_INTSIZE64
 #End Optimized options
 
