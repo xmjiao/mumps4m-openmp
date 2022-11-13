@@ -199,7 +199,7 @@ $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 	$(RANLIB) $@
 
 $(dlldir)/lib$(ARITH)mumps$(PLAT)$(DLLEXT):    $(OBJS_MOD) $(OBJS_OTHER)
-	$(FL) -fopenmp -Wl,-soname,lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_MAJOR_VERSION) ${FLFLAGS} -o $@.$(MUMPS_VERSION) $? $(LIBS)
+	$(FL) -fopenmp ${FLFLAGS} -o $@.$(MUMPS_VERSION) $? $(LIBS)
 	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@.$(MUMPS_MAJOR_VERSION)
 	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@
 
