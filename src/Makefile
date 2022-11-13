@@ -1,6 +1,6 @@
 #
-#  This file is part of MUMPS 5.3.4, released
-#  on Mon Sep 28 07:16:41 UTC 2020
+#  This file is based on the Makefile for MUMPS 5.3.4. It was updated to build
+#  a shared library.
 #
 #
 topdir = ..
@@ -199,7 +199,9 @@ $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 	$(RANLIB) $@
 
 $(dlldir)/lib$(ARITH)mumps$(PLAT)$(DLLEXT):    $(OBJS_MOD) $(OBJS_OTHER)
-	$(FL) -fopenmp -shared -o $@ $? $(LIBS)
+	$(FL) -fopenmp -Wl,-soname,lib$@.$(MUMPS_MAJOR_VERSION) ${FLFLAGS} -o $@.$(MUMPS_VERSION) $? $(LIBS)
+	ln -s -f lib$@.$(MUMPS_VERSION) $@.$(MUMPS_MAJOR_VERSION)
+	ln -s -f lib$@.$(MUMPS_VERSION) $@
 
 # Dependencies between modules:
 # i) arithmetic-dependent modules:

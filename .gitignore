@@ -2,4 +2,8 @@
 *.o
 *.mod
 *mumps_int_def*
-*.so
+*.so*
+*simpletest*
+Makefile.inc
+metis-5.1.0
+include/metis.h
