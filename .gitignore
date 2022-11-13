@@ -1,0 +1,5 @@
+*.a
+*.o
+*.mod
+*mumps_int_def*
+*.so

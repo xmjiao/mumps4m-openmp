@@ -1,0 +1,4 @@
+1. Link lib?mumps with libwmlapack.so (Done)
+2. Add -fallow-mismatch-argument selectively (Done)
+3. Check how to set LAPACK_INT in MUMPS and set it to 64-bit integer (Partially done)
+4. Build static library of METIS and link it into lib?mumps.
