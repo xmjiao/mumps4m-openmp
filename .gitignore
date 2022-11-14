@@ -6,6 +6,9 @@
 *.dll*
 *.dylib*
 *simpletest*
+*example*
 Makefile.inc
 metis-5.1.0
 include/*
+*.mex*
+*.stamps
