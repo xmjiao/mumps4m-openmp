@@ -25,7 +25,8 @@ build_metis_64() {
     else
         perl -e 's/#define IDXTYPEWIDTH 64/#define IDXTYPEWIDTH 32/g' -pi include/metis.h
     fi
-    ${ARCH} ${MAKE} config
+    MACVER=$([ "${SYSTEM}" = 'Darwin' -a "$(uname -m)" = 'arm64' ] && echo 'CFLAGS=-mmacosx-version-min=10.15' || true)
+    ${ARCH} ${MAKE} ${MACVER} config
     ${ARCH} ${MAKE}
 
     # Copy header and static library

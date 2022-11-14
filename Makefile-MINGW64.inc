@@ -2,7 +2,7 @@
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
 # These settings for a PC with MATLAB and MINGW64 installed. BLAS and
-# LAPACK use those distributed with Anaconda or Miniconda. The required
+# LAPACK use those distributed with Anaconda. The required
 # system tools can be installed by running the command:
 #
 # conda install -c conda-forge mumps_seq
@@ -10,6 +10,10 @@
 # Note that mumps_seq in conda-forge is an older version, and OpenMP was not
 # enabled. libmumps builds a newer version with OpenMP enabled. METIS is built
 # from source code.
+#
+# It is important that the ${CONDA_PREFIX}/Library/bin is in the path.
+# One easy way is to add MATLAB to the path and start up MATLAB from a Bash
+# or Powershell already initialized conda.
 
 
 SYSTEM        = MINGW64
