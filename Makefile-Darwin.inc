@@ -55,15 +55,15 @@ LIBOTHERS = -lpthread
 
 MATLABROOT = $(shell realpath `which matlab`/../..)
 INCSEQ = -I$(topdir)/libseq
-LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq -L$(CONDA_PREFIX)/lib -lgfortran -L$(MATLABROOT)/sys/os/maci64 -liomp5
+LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
 
 #Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O3 -fopenmp
+OPTF    = -O3
 OPTL    = -O3
-OPTC    = -O3 -Xclang -fopenmp
+OPTC    = -O3
 #End Optimized options
 
 INCS = $(INCSEQ)
