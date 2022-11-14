@@ -7,8 +7,8 @@
 #
 # conda install -c conda-forge gfortran cmake
 #
-# METIS is built from source code. BLAS, LAPACK, and OpenMP use those distributed
-# with Miniconda or defined in rpath.
+# METIS is built from source code. BLAS and LAPACK use those distributed
+# with MATLAB. OpenMP is not supported.
 
 SYSTEM   = Darwin
 MACHINE  = x86_64
@@ -53,8 +53,9 @@ LAPACK = -llapack
 LIBBLAS = -lblas
 LIBOTHERS = -lpthread
 
+MATLABROOT = $(shell realpath `which matlab`/../..)
 INCSEQ = -I$(topdir)/libseq
-LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq -lgomp
+LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq -L$(CONDA_PREFIX)/lib -lgfortran -L$(MATLABROOT)/sys/os/maci64 -liomp5
 
 #Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
 CDEFS   = -DAdd_
