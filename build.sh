@@ -20,14 +20,18 @@ build_metis_64() {
     cd metis-${METIS_VERSION}
 
     # Build METIS static library
-    perl -e 's/#define IDXTYPEWIDTH 32/#define IDXTYPEWIDTH 64/g' -pi include/metis.h
+    if [ "${SYSTEM}" = "Linux" ]; then
+        perl -e 's/#define IDXTYPEWIDTH 32/#define IDXTYPEWIDTH 64/g' -pi include/metis.h
+    else
+        perl -e 's/#define IDXTYPEWIDTH 64/#define IDXTYPEWIDTH 32/g' -pi include/metis.h
+    fi
     ${ARCH} ${MAKE} config
     ${ARCH} ${MAKE}
 
     # Copy header and static library
-    mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}" "${PREFIX}/include"
+    mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}" "${PREFIX}/include/${SYSTEM}-${MACHINE}"
     cp build/${SYSTEM}-x86_64/libmetis/libmetis.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
-    cp include/metis.h "${PREFIX}/include"
+    cp include/metis.h "${PREFIX}/include/${SYSTEM}-${MACHINE}"
     cd $PREFIX
 }
 
@@ -35,7 +39,7 @@ cp Makefile-${SYSTEM}.inc MUMPS/Makefile.inc
 cp src/Makefile MUMPS/src/Makefile
 
 # Build metis with 64-bit integer
-[ -f "$PREFIX/include/metis.h" -a -f "$PREFIX/lib/${SYSTEM}-${MACHINE}/libmetis.a" ] || build_metis_64
+[ -f "$PREFIX/include/${SYSTEM}-${MACHINE}/metis.h" -a -f "$PREFIX/lib/${SYSTEM}-${MACHINE}/libmetis.a" ] || build_metis_64
 
 # Build shared objects for single-precision real and complex arithemetic
 ${ARCH} ${MAKE} -C MUMPS clean
