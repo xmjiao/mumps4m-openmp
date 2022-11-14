@@ -13,6 +13,10 @@
 # integers uniformally. MATLAB is found by using the realpath of the `matlab`
 # command in the path.
 
+SYSTEM   = Linux
+MACHINE  = x86_64
+MUMPS_VERSION = 5.3.4
+
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
@@ -35,8 +39,8 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 PLAT    =
 LIBEXT  = .a
 DLLEXT  = .so
-OUTC    = -o
-OUTF    = -o
+OUTC    = -o 
+OUTF    = -o 
 RM = /bin/rm -f
 CC = gcc -fPIC
 

@@ -1,34 +1,32 @@
 #
-#  This file is part of MUMPS 5.3.4, released
-#  on Mon Sep 28 07:16:41 UTC 2020
+#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
-# These settings for a PC under Debian/linux with standard packages :
-# metis (parmetis), scotch (ptscotch), openmpi, gfortran
+# These settings for a PC with MATLAB and MINGW64 installed. BLAS and
+# LAPACK use those distributed with Anaconda or Miniconda. The required
+# system tools can be installed by running the command:
+#
+# conda install -c conda-forge mumps_seq
+#
+# Note that mumps_seq in conda-forge is an older version, and OpenMP was not
+# enabled. libmumps builds a newer version with OpenMP enabled. METIS is built
+# from source code.
 
-# packages installation:
-# apt-get install libmetis-dev libparmetis-dev libscotch-dev libptscotch-dev libatlas-base-dev openmpi-bin libopenmpi-dev liblapack-dev
+
+SYSTEM        = MINGW64
+MACHINE       = x86_64
+MUMPS_VERSION = 5.3.4
 
 # Begin orderings
-LSCOTCHDIR = /usr/lib
-ISCOTCH   = -I/usr/include/scotch
-
-#LSCOTCH   = -L$(LSCOTCHDIR) -lptesmumps -lptscotch -lptscotcherr
-LSCOTCH   = -L$(LSCOTCHDIR) -lesmumps -lscotch -lscotcherr
-
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
 LPORD    = -L$(LPORDDIR) -lpord
 
-LMETISDIR = /usr/lib
-#IMETIS    = -I/usr/include/parmetis
-IMETIS    = -I/usr/include/metis
-
-# LMETIS    = -L$(LMETISDIR) -lparmetis -lmetis
-LMETIS    = -lmetis
+LMETISDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
+IMETIS    = -I$(topdir)/../include/$(SYSTEM)-$(MACHINE)
+LMETIS    = -L$(LMETISDIR) -lmetis
 
 # Corresponding variables reused later
-#ORDERINGSF = -Dmetis -Dpord -Dparmetis -Dscotch -Dptscotch
-ORDERINGSF = -Dmetis -Dpord -Dscotch -DINTSIZE64
+ORDERINGSF = -Dmetis -Dpord
 ORDERINGSC  = $(ORDERINGSF)
 
 LORDERINGS = $(LMETIS) $(LPORD) $(LSCOTCH)
@@ -39,38 +37,38 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 
 PLAT    =
 LIBEXT  = .a
-DLLEXT  = .so
-OUTC    = -o
-OUTF    = -o
+DLLEXT  = .dll
+OUTC    = -o 
+OUTF    = -o 
 RM = /bin/rm -f
 CC = gcc -fPIC
 
-ARGMISMATCH := $(if $(shell gfortran -c -fallow-argument-mismatch /dev/null -o /dev/null 2> /dev/null && echo true),-fallow-argument-mismatch -Wno-argument-mismatch)
+ARGMISMATCH := $(if $(shell gfortran -c -fallow-argument-mismatch /dev/null -o /dev/null 2> /dev/null && echo true),-fallow-argument-mismatch)
 FC = gfortran -fPIC $(ARGMISMATCH)
-FL = gfortran -Wl,--no-undefined
+FL = gfortran
+FLFLAGS = -shared
 AR = ar vr 
 RANLIB = ranlib
-#LAPACK = -llapack
-MATLAB_ROOT = /usr/local/MATLAB/R2022a
-LAPACK = -L$(MATLAB_ROOT)/bin/glnxa64 -lmwlapack
 
+CONDA_PREFIX := $(shell cygpath $(CONDA_PREFIX))
+
+LAPACK = -L"$(CONDA_PREFIX)"/Library/bin/ -lliblapack
+
+LIBBLAS = -llibblas
+LIBOTHERS = -lpthread
 
 INCSEQ = -I$(topdir)/libseq
 LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
-
-#LIBBLAS = -lblas
-LIBBLAS = -lmwblas
-LIBOTHERS = -lpthread
 
 #Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O -fopenmp
-OPTL    = -O -fopenmp
-OPTC    = -O -fopenmp
+OPTF    = -O3 -fopenmp
+OPTL    = -O3 -fopenmp
+OPTC    = -O3 -fopenmp
 #End Optimized options
 
 INCS = $(INCSEQ)
-LIBS = -L$(libdir) -lmumps_common -lpord $(LMETIS) $(LIBSEQ) $(LSCOTCH) $(LAPACK) $(LIBBLAS)
+LIBS = -L$(libdir) -lmumps_common -lpord $(LMETIS) $(LIBSEQ) $(LAPACK) $(LIBBLAS)
 LIBSEQNEEDED = libseqneeded

@@ -10,6 +10,10 @@
 # METIS is built from source code. BLAS, LAPACK, and OpenMP use those distributed
 # with Miniconda or defined in rpath.
 
+SYSTEM   = Darwin
+MACHINE  = x86_64
+MUMPS_VERSION = 5.3.4
+
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
@@ -32,8 +36,8 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 PLAT    =
 LIBEXT  = .a
 DLLEXT  = .dylib
-OUTC    = -o
-OUTF    = -o
+OUTC    = -o 
+OUTF    = -o 
 RM = /bin/rm -f
 CC = gcc -mmacosx-version-min=10.15 -fPIC
 
@@ -49,7 +53,7 @@ LAPACK = -llapack
 LIBBLAS = -lblas
 LIBOTHERS = -lpthread
 
-INCSEQ = -I$(topdir)/libseq $(OMPINC)
+INCSEQ = -I$(topdir)/libseq
 LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq -lgomp
 
 #Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
