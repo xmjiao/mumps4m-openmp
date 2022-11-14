@@ -47,3 +47,9 @@ ${ARCH} ${MAKE} -C MUMPS s sexamples
 (cd MUMPS/examples; ./ssimpletest < input_simpletest_real)
 ${ARCH} ${MAKE} -C MUMPS c cexamples
 (cd MUMPS/examples; ./csimpletest < input_simpletest_cmplx)
+
+# Build shared objects for double-precision real and complex arithemetic
+${ARCH} ${MAKE} -C MUMPS d dexamples
+(cd MUMPS/examples; ./dsimpletest < input_simpletest_real)
+${ARCH} ${MAKE} -C MUMPS z zexamples
+(cd MUMPS/examples; ./zsimpletest < input_simpletest_cmplx)
