@@ -200,6 +200,7 @@ $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 
 $(dlldir)/lib$(ARITH)mumps$(PLAT)$(DLLEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 	$(FL) -fopenmp ${FLFLAGS} -o $@.$(MUMPS_VERSION) $? $(LIBS)
+	cp $(libdir)/lib*$(LIBEXT) $(dlldir)
 	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@.$(MUMPS_MAJOR_VERSION)
 	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@
 
