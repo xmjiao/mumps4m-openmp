@@ -2,9 +2,10 @@
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
 # These settings for a PC under Debian/linux with gfortran and MATLAB.
-%
-% sudo apt install gfortran cmake
-%
+# The required system tools can be installed by installed using the command:
+#
+# sudo apt install gfortran cmake
+#
 # METIS is built from source code using 64-bit integer. BLAS and
 # LAPACK use libmwblas and libmwlapack distributed with MATLAB, which
 # is based on MKL with 64-bit integers. MATLAB is found by using the

@@ -3,6 +3,8 @@
 *.mod
 *mumps_int_def*
 *.so*
+*.dll*
+*.dylib*
 *simpletest*
 Makefile.inc
 metis-5.1.0
