@@ -36,7 +36,6 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 
 PLAT    =
 LIBEXT  = .a
-DLLEXT  = .so
 OUTC    = -o 
 OUTF    = -o 
 RM = /bin/rm -f

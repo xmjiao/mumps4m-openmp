@@ -2,25 +2,27 @@
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
 # These settings for a Mac with Xcode command-line tools and gfortran.
-# The required system tools can be installed by setting up Miniconda3 and then
-# run the command:
+# The required system tools can be installed by setting up the x86_64
+# version of Miniconda3 (or Anaconda3) and then run the command:
 #
 # conda install -c conda-forge gfortran cmake
 #
-# METIS is built from source code. BLAS and LAPACK use those distributed
-# with MATLAB. OpenMP is not supported.
+# METIS is built from source code. BLAS and LAPACK use a statically
+# built version without OpenMP.
 
 SYSTEM   = Darwin
 MACHINE  = x86_64
 MUMPS_VERSION = 5.3.4
+
+SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
 LPORD    = -L$(LPORDDIR) -lpord
 
-LMETISDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
-IMETIS    = -I$(topdir)/../include/$(SYSTEM)-$(MACHINE)
+LMETISDIR = $(SYSLIBDIR)
+IMETIS    = -I$(topdir)/../include
 LMETIS    = -L$(LMETISDIR) -lmetis
 
 # Corresponding variables reused later
@@ -35,7 +37,6 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 
 PLAT    =
 LIBEXT  = .a
-DLLEXT  = .dylib
 OUTC    = -o 
 OUTF    = -o 
 RM = /bin/rm -f
@@ -48,12 +49,10 @@ FLFLAGS = -shared
 AR = ar vr 
 RANLIB = ranlib
 
-LAPACK = -llapack
-
-LIBBLAS = -lblas
+LAPACK = -L$(SYSLIBDIR) -lopenblas
+LIBBLAS =
 LIBOTHERS = -lpthread
 
-MATLABROOT = $(shell realpath `which matlab`/../..)
 INCSEQ = -I$(topdir)/libseq
 LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
 

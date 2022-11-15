@@ -21,8 +21,10 @@ build_openblas() {
     curl -Ls https://github.com/xianyi/OpenBLAS/archive/v${OPENBLAS_VERSION}.tar.gz | tar zxf -
     cd OpenBLAS-${OPENBLAS_VERSION}
 
+    USE_OPENMP=$([ "${SYSTEM}" = 'Darwin' ] && echo "" || echo "USE_OPENMP=1")
+    NPROC=$([ "${SYSTEM}" = 'Darwin' ] && eval 'sysctl -n hw.physicalcpu' || nproc)
     # Build static library
-    make INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 USE_OPENMP=1 NUM_PARALLEL=$(nproc)
+    ${ARCH} make INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP} NUM_PARALLEL=${NPROC}
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"

@@ -195,7 +195,7 @@ OBJS_OTHER = \
 $(libdir)/libmumps_common$(PLAT)$(LIBEXT):      $(OBJS_COMMON_MOD) $(OBJS_COMMON_OTHER)
 	$(AR) $@ $?
 	$(RANLIB) $@
-	cp *.a $(install_libdir)
+	cp $(libdir)/*.a $(install_libdir)
 
 $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 	$(AR) $@ $?

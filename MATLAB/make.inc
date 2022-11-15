@@ -7,7 +7,7 @@
 # ( the use of -largeArrayDims is necessary to work with sparse
 # matrices since R2006b)
 #MEX         = /opt/matlab/matlab/bin/mex -g -largeArrayDims
-MEX          = mex -g -largeArrayDims
+MEX          = mex -g -largeArrayDims LD=gfortran
 
 # To generate the Octave interface uncomment the following line
 # MEX         = mkoctfile -g --mex
@@ -19,6 +19,8 @@ MACHINE = $(shell uname -m)
 install_libdir = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 install_incdir = $(topdir)/../include
 
+MUMPS_DIR = $(topdir)/..
+
 # Orderings (see main Makefile.inc file from MUMPS)
 LMETIS     = -L$(install_libdir) -lmetis
 LPORD      = -L$(install_libdir) -lpord
@@ -28,7 +30,7 @@ LORDERINGS = $(LPORD) $(LMETIS)
 # Please find out the path and name of your
 # Fortran runtime, examples below:
 # g95:
-# LIBFORT = /usr/lib/libf95.a /usr/lib/libgcc.a 
+# LIBFORT = /usr/lib/libf95.a /usr/lib/libgcc.a
 # Intel:
 # LIBFORT = /opt/intel80/lib/libifcore.a /opt/intel80/lib/libifport.a /opt/intel80/lib/libirc.a
 # PGI:
@@ -52,5 +54,4 @@ LIBBLAS = -L$(install_libdir) -lopenblas
 # extra options passed via mex command
 # Add -DINTSIZE64 if MUMPS was compiled with 64-bit integers (BLAS
 # library should then have 64-bit integers as well)
-OPTC    = -g
-
+OPTC    = -g -I$(install_incdir)
