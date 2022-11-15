@@ -1,29 +1,27 @@
 #
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
-# These settings for a PC under Debian/linux with gfortran and MATLAB.
+# These settings for a PC under Debian/linux with gfortran.
 # The required system tools can be installed by installed using the command:
 #
 # sudo apt install gfortran cmake
 #
-# METIS is built from source code using 64-bit integer. BLAS and
-# LAPACK use libmwblas and libmwlapack distributed with MATLAB to prevent
-# MATLAB from crashing due to conflicting LAPACK and BLAS libraries. Since
-# libmwblas and libmwlapack use 64-bit integers, MUMPS is built with 64-bit
-# integers uniformally. MATLAB is found by using the realpath of the `matlab`
-# command in the path.
+# BLAS and LAPACK use a statically built libopenblas.a to avoid MATLAB
+# overriding the LAPACK and BLAS routines.
 
 SYSTEM   = Linux
 MACHINE  = x86_64
 MUMPS_VERSION = 5.3.4
+
+SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
 LPORD    = -L$(LPORDDIR) -lpord
 
-LMETISDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
-IMETIS    = -I$(topdir)/../include/$(SYSTEM)-$(MACHINE)
+LMETISDIR = $(SYSLIBDIR)
+IMETIS    = -I$(topdir)/../include
 LMETIS    = -L$(LMETISDIR) -lmetis
 
 # Corresponding variables reused later
@@ -52,11 +50,8 @@ FLFLAGS = -shared -Wl,--no-undefined
 AR = ar vr 
 RANLIB = ranlib
 
-MATLAB := $(shell which matlab)
-MATLAB_LIBDIR := $(shell dirname $(realpath $(MATLAB)))/glnxa64
-LAPACK = -L$(MATLAB_LIBDIR) -Wl,-rpath=$(MATLAB_LIBDIR) -lmwlapack
-
-LIBBLAS = -lmwblas
+LAPACK = -L$(SYSLIBDIR) -lopenblas
+LIBBLAS =
 LIBOTHERS = -lpthread
 
 INCSEQ = -I$(topdir)/libseq
@@ -66,9 +61,9 @@ LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O3 -fopenmp -fdefault-integer-8
+OPTF    = -O3 -fopenmp
 OPTL    = -O3 -fopenmp
-OPTC    = -O3 -fopenmp -DINTSIZE64 -DPORD_INTSIZE64
+OPTC    = -O3 -fopenmp
 #End Optimized options
 
 INCS = $(INCSEQ)

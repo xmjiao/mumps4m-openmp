@@ -4,7 +4,6 @@
 #
 #
 topdir = ..
-dlldir = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 libdir = $(topdir)/lib
 incdir = $(topdir)/include
 
@@ -22,15 +21,18 @@ z:
 	$(MAKE) ARITH=z mumps_lib
 
 include $(topdir)/Makefile.inc
+install_libdir = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
+install_incdir = $(topdir)/../include
 
 mumps_lib:    $(incdir)/mumps_int_def.h \
               $(libdir)/libmumps_common$(PLAT)$(LIBEXT) \
-              $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT) \
-              $(dlldir)/lib$(ARITH)mumps$(PLAT)$(DLLEXT)
+              $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT)
 
 # Build $(incdir)/mumps_int_def.h, needed by mumps_c_types.h
 $(incdir)/mumps_int_def.h: build_mumps_int_def
 	./build_mumps_int_def > $(incdir)/mumps_int_def.h
+	cp $(incdir)/mumps_int_def.h $(install_incdir)/mumps_int_def.h
+
 build_mumps_int_def:build_mumps_int_def.o
 	$(CC) $(OPTL) build_mumps_int_def.o -o build_mumps_int_def
 
@@ -193,16 +195,13 @@ OBJS_OTHER = \
 $(libdir)/libmumps_common$(PLAT)$(LIBEXT):      $(OBJS_COMMON_MOD) $(OBJS_COMMON_OTHER)
 	$(AR) $@ $?
 	$(RANLIB) $@
+	cp *.a $(install_libdir)
 
 $(libdir)/lib$(ARITH)mumps$(PLAT)$(LIBEXT):    $(OBJS_MOD) $(OBJS_OTHER)
 	$(AR) $@ $?
 	$(RANLIB) $@
-
-$(dlldir)/lib$(ARITH)mumps$(PLAT)$(DLLEXT):    $(OBJS_MOD) $(OBJS_OTHER)
-	$(FL) -fopenmp ${FLFLAGS} -o $@.$(MUMPS_VERSION) $? $(LIBS)
-	cp $(libdir)/lib*$(LIBEXT) $(dlldir)
-	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@.$(MUMPS_MAJOR_VERSION)
-	ln -s -f lib$(ARITH)mumps$(PLAT)$(DLLEXT).$(MUMPS_VERSION) $@
+	cp $@ $(install_libdir)
+	cp $(incdir)/mumps_compat.h $(incdir)/$(ARITH)mumps_c.h $(install_incdir)
 
 # Dependencies between modules:
 # i) arithmetic-dependent modules:

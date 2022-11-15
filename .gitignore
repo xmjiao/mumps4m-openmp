@@ -9,6 +9,8 @@
 *example*
 Makefile.inc
 metis-5.1.0
+OpenBLAS-*/
 include/*
 *.mex*
 *.stamps
+MUMPS/
