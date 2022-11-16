@@ -6,6 +6,7 @@ export SYSTEM=$(uname -s | cut -d'_' -f1)
 export MACHINE=x86_64
 export MUMPS_VERSION=5.3.4
 export MUMPS_MAJOR_VERSION=$(echo ${MUMPS_VERSION} | cut -d'.' -f1)
+MUMPS_FILEID=1s9TH393i_9AK3qvfkT6KoVnZL5sCrwx2
 
 OPENBLAS_VERSION=0.3.21
 METIS_VERSION=5.1.0
@@ -18,13 +19,13 @@ ARCH=$([ "${SYSTEM}" = 'Darwin' -a "$(uname -m)" = 'arm64' ] && echo 'arch -x86_
 
 build_openblas() {
     # Download and unpack
-    curl -Ls https://github.com/xianyi/OpenBLAS/archive/v${OPENBLAS_VERSION}.tar.gz | tar zxf -
+    rm -rf OpenBLAS-${OPENBLAS_VERSION}
+    curl -L https://github.com/xianyi/OpenBLAS/archive/v${OPENBLAS_VERSION}.tar.gz | tar zxf -
     cd OpenBLAS-${OPENBLAS_VERSION}
 
-    USE_OPENMP=$([ "${SYSTEM}" = 'Darwin' ] && echo "" || echo "USE_OPENMP=1")
-    NPROC=$([ "${SYSTEM}" = 'Darwin' ] && eval 'sysctl -n hw.physicalcpu' || nproc)
+    USE_OPENMP=$([ "${SYSTEM}" = 'Linux' ] && echo "USE_OPENMP=1 NUM_PARALLEL=64" || true)
     # Build static library
-    ${ARCH} make INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP} NUM_PARALLEL=${NPROC}
+    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP} SUFFIX=o
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
@@ -34,7 +35,7 @@ build_openblas() {
 
 build_metis() {
     # Download and unpack
-    curl -Ls http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-${METIS_VERSION}.tar.gz | tar zxf -
+    curl -L http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/metis-${METIS_VERSION}.tar.gz | tar zxf -
     cd metis-${METIS_VERSION}
 
     # Build METIS static library
@@ -49,7 +50,10 @@ build_metis() {
     cd $PREFIX
 }
 
-cp Makefile-${SYSTEM}.inc MUMPS/Makefile.inc
+[ -f "MUMPS_${MUMPS_VERSOIN}.tar.gz" ] || gdown $MUMPS_FILEID
+
+rm -rf MUMPS && mkdir MUMPS && tar xf MUMPS_${MUMPS_VERSION}.tar.gz --strip-components=1 -C MUMPS
+cp Makefile-${SYSTEM}.inc MUMPS_${MUMPS_VERSION}/Makefile.inc
 cp src/Makefile MUMPS/src/Makefile
 cp libseq/Makefile MUMPS/libseq/Makefile
 cp MATLAB/make.inc MUMPS/MATLAB/make.inc
