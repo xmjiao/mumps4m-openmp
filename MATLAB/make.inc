@@ -1,25 +1,16 @@
-# It is possible to generate a MATLAB or an Octave interface thanks to
-# the Octave MEX file compatibility. Comment/uncomment the lines below
-# depending on whether you want to generate the MATLAB or the Octave
-# interface
-
-# To generate the MATLAB interface uncomment the following line
-# ( the use of -largeArrayDims is necessary to work with sparse
-# matrices since R2006b)
-#MEX         = /opt/matlab/matlab/bin/mex -g -largeArrayDims
-
 SYSTEM      := $(shell uname -s | cut -d'_' -f1)
 MACHINE     := $(shell uname -m)
 
 ifeq "$(SYSTEM)" "MINGW64"
+# On Windows, we assume MINGW64 gcc and gfortran are installed
 MEX         := matlab -batch '"'mex
-LIBFORT     := -L"$(shell cygpath $(shell dirname $(shell dirname `which GFORTRAN`))/lib/gcc/x86_64-w64-mingw32/6.3.0)" \
-    -lgfortran -lquadmath LDFLAGS='-fopenmp $$LDFLAGS' '"'
+LIBFORT     := -L"$(shell dirname $(shell dirname `which gcc`))/lib/gcc/x86_64-w64-mingw32/6.3.0" \
+    -lgfortran -lquadmath LDFLAGS="-fopenmp $$LDFLAGS"
 
 else
-MEX          = mex -g -largeArrayDims LD=gfortran
-LIBFORT      = -lgfortan
-
+# On Linux and Mac, we assume gfortran is installed
+MEX          = matlab -batch 'mex LD=gfortran
+LIBFORT      = LDFLAGS="-fopenmp $$LDFLAGS" -lgfortran'
 endif
 
 # Main MUMPS_DIR
