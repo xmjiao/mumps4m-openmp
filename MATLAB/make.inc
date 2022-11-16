@@ -7,7 +7,13 @@
 # ( the use of -largeArrayDims is necessary to work with sparse
 # matrices since R2006b)
 #MEX         = /opt/matlab/matlab/bin/mex -g -largeArrayDims
+
+SYSTEM      := $(shell uname -s | cut -d'_' -f1)
+ifeq "$(SYSTEM)" "MINGW64"
+MEX         := $(shell dirname "`which matlab`")/mex.bat -g -largeArrayDims LD=gfortran
+else
 MEX          = mex -g -largeArrayDims LD=gfortran
+endif
 
 # To generate the Octave interface uncomment the following line
 # MEX         = mkoctfile -g --mex
