@@ -25,11 +25,11 @@ build_openblas() {
 
     USE_OPENMP=$([ "${SYSTEM}" = 'Linux' ] && echo "USE_OPENMP=1 NUM_PARALLEL=64" || true)
     # Build static library
-    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP} SUFFIX=o
+    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP}
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
-    cp libopenblas.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
+    cp libopenblas_*-r${OPENBLAS_VERSION}.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}/libopenblas.a"
     cd $PREFIX
 }
 
@@ -52,8 +52,8 @@ build_metis() {
 
 [ -f "MUMPS_${MUMPS_VERSOIN}.tar.gz" ] || gdown $MUMPS_FILEID
 
-rm -rf MUMPS && mkdir MUMPS && tar xf MUMPS_${MUMPS_VERSION}.tar.gz --strip-components=1 -C MUMPS
-cp Makefile-${SYSTEM}.inc MUMPS_${MUMPS_VERSION}/Makefile.inc
+rm -rf MUMPS && mkdir MUMPS && tar xvf MUMPS_${MUMPS_VERSION}.tar.gz --strip-components=1 -C MUMPS
+cp Makefile-${SYSTEM}.inc MUMPS/Makefile.inc
 cp src/Makefile MUMPS/src/Makefile
 cp libseq/Makefile MUMPS/libseq/Makefile
 cp MATLAB/make.inc MUMPS/MATLAB/make.inc
