@@ -56,9 +56,9 @@ LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O3
-OPTL    = -O3
-OPTC    = -O3
+OPTF    = -O3 -fopenmp
+OPTL    = -O3 -fopenmp
+OPTC    = -O3 -fopenmp
 #End Optimized options
 
 INCS = $(INCSEQ)
