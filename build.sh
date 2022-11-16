@@ -23,7 +23,7 @@ build_openblas() {
     curl -L https://github.com/xianyi/OpenBLAS/archive/v${OPENBLAS_VERSION}.tar.gz | tar zxf -
     cd OpenBLAS-${OPENBLAS_VERSION}
 
-    USE_OPENMP=$([ "${SYSTEM}" = 'Linux' ] && echo "USE_OPENMP=1 NUM_PARALLEL=64" || true)
+    USE_OPENMP=$([ "${SYSTEM}" != 'Darwin' ] && echo "USE_OPENMP=1" || true)
     # Build static library
     ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP}
 
