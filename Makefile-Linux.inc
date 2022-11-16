@@ -44,7 +44,6 @@ CC = gcc -fPIC
 ARGMISMATCH := $(if $(shell gfortran -c -fallow-argument-mismatch /dev/null -o /dev/null 2> /dev/null && echo true),-fallow-argument-mismatch)
 FC = gfortran -fPIC $(ARGMISMATCH)
 FL = gfortran
-FLFLAGS = -shared -Wl,--no-undefined
 
 AR = ar vr 
 RANLIB = ranlib

@@ -1,32 +1,24 @@
 #
 #  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
 #
-# These settings for a PC with MATLAB and MINGW64 installed. BLAS and
-# LAPACK use those distributed with Anaconda. The required
-# system tools can be installed by running the command:
-#
-# conda install -c conda-forge mumps_seq
-#
-# Note that mumps_seq in conda-forge is an older version, and OpenMP was not
-# enabled. libmumps builds a newer version with OpenMP enabled. METIS is built
-# from source code.
-#
-# It is important that the ${CONDA_PREFIX}/Library/bin is in the path.
-# One easy way is to add MATLAB to the path and start up MATLAB from a Bash
-# or Powershell already initialized conda.
+# These settings for a PC with MATLAB and MINGW64 installed. METIS is built
+# from source code. BLAS and LAPACK use a statically built libopenblas.a.
+
 
 
 SYSTEM        = MINGW64
 MACHINE       = x86_64
 MUMPS_VERSION = 5.3.4
 
+SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
+
 # Begin orderings
 LPORDDIR = $(topdir)/PORD/lib/
 IPORD    = -I$(topdir)/PORD/include/
 LPORD    = -L$(LPORDDIR) -lpord
 
-LMETISDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
-IMETIS    = -I$(topdir)/../include/$(SYSTEM)-$(MACHINE)
+LMETISDIR = $(SYSLIBDIR)
+IMETIS    = -I$(topdir)/../include
 LMETIS    = -L$(LMETISDIR) -lmetis
 
 # Corresponding variables reused later
@@ -41,7 +33,6 @@ IORDERINGSC = $(IMETIS) $(IPORD) $(ISCOTCH)
 
 PLAT    =
 LIBEXT  = .a
-DLLEXT  = .dll
 OUTC    = -o 
 OUTF    = -o 
 RM = /bin/rm -f
@@ -50,15 +41,12 @@ CC = gcc -fPIC
 ARGMISMATCH := $(if $(shell gfortran -c -fallow-argument-mismatch /dev/null -o /dev/null 2> /dev/null && echo true),-fallow-argument-mismatch)
 FC = gfortran -fPIC $(ARGMISMATCH)
 FL = gfortran
-FLFLAGS = -shared
+
 AR = ar vr 
 RANLIB = ranlib
 
-CONDA_PREFIX := $(shell cygpath $(CONDA_PREFIX))
-
-LAPACK = -L"$(CONDA_PREFIX)"/Library/bin/ -lliblapack
-
-LIBBLAS = -llibblas
+LAPACK = -L$(SYSLIBDIR) -lopenblas
+LIBBLAS =
 LIBOTHERS = -lpthread
 
 INCSEQ = -I$(topdir)/libseq

@@ -45,7 +45,6 @@ CC = gcc -mmacosx-version-min=10.15 -fPIC
 ARGMISMATCH := $(if $(shell gfortran -c -fallow-argument-mismatch /dev/null -o /dev/null 2> /dev/null && echo true),-fallow-argument-mismatch)
 FC = gfortran -mmacosx-version-min=10.15 -fPIC $(ARGMISMATCH)
 FL = gfortran -mmacosx-version-min=10.15
-FLFLAGS = -shared
 AR = ar vr 
 RANLIB = ranlib
 
