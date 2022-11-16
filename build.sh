@@ -80,4 +80,4 @@ ${ARCH} ${MAKE} -C MUMPS z zexamples
 
 # Build MATLAB and run tests
 ${ARCH} ${MAKE} -C MUMPS/MATLAB clean d z
-(cd MUMPS/MATLAB; matlab -nodisplay -batch 'simple_example; zsimple_example')
+(cd MUMPS/MATLAB; matlab -nojvm -batch 'simple_example; zsimple_example')
