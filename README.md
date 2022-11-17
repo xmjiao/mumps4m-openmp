@@ -47,7 +47,7 @@ See https://github.com/xmjiao/mumps4m-openmp/tree/main/recipe/MATLAB to see how 
 
 ## AUTHOR
 `mumps4m-openmp` was developed and maintained by Xiangmin (Jim) Jiao (xiangmin.jiao@stonybrook.edu) mainly for comparative research. If you need robust and efficient linear solvers for large-scale problems, please also consider the software
-[hifir](https://github.com/hifirworks/hifir). For a comparison between HIFIR and MUMPS, please see the following papers:
+[hifir](https://github.com/hifirworks/hifir). For comparisons between HIFIR and MUMPS, please see the following papers:
 
 ```bibtex
 @Article{chen2021hilucsi,
