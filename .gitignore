@@ -10,7 +10,8 @@
 Makefile.inc
 metis-5.1.0
 OpenBLAS-*/
-include/*
+recipe/include/*
+recipe/lib/*
 *.mex*
 *.stamps
 MUMPS/
