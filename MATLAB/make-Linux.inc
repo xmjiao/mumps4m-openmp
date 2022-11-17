@@ -1,12 +1,13 @@
 # make.inc for Linux with x86_64 version of MATLAB.
-# We assume matlab is in the path, but not necessarily mex.
+# We assume matlab, mex, and gfortran are in the path.
 
 SYSTEM       = Linux
 MACHINE      = x86_64
 
 # On Linux and Mac, we assume gfortran is installed
-MEX          = matlab -nojvm -batch 'mex
-LIBFORT      = LDFLAGS="-fopenmp $$LDFLAGS" -lgfortran'
+MATLABROOT  := $(shell dirname $(shell dirname $(shell realpath `which matlab`)))
+MEX          = mex
+LIBFORT      = -lgfortran -L$(MATLABROOT)/sys/os/glnxa64 -liomp5
 
 # Main MUMPS_DIR
 topdir = ..
