@@ -1,17 +1,12 @@
-SYSTEM      := $(shell uname -s | cut -d'_' -f1)
-MACHINE     := $(shell uname -m)
+# make.inc for Linux with x86_64 version of MATLAB.
+# We assume matlab is in the path, but not necessarily mex.
 
-ifeq "$(SYSTEM)" "MINGW64"
-# On Windows, we assume MINGW64 gcc and gfortran are installed
-MEX         := matlab -batch '"'mex
-LIBFORT     := -L"$(shell dirname $(shell dirname `which gcc`))/lib/gcc/x86_64-w64-mingw32/6.3.0" \
-    -lgfortran -lquadmath LDFLAGS="-fopenmp $$LDFLAGS"
+SYSTEM       = Linux
+MACHINE      = x86_64
 
-else
 # On Linux and Mac, we assume gfortran is installed
-MEX          = matlab -batch 'mex LD=gfortran
+MEX          = matlab -nojvm -batch 'mex
 LIBFORT      = LDFLAGS="-fopenmp $$LDFLAGS" -lgfortran'
-endif
 
 # Main MUMPS_DIR
 topdir = ..

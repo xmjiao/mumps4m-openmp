@@ -23,9 +23,8 @@ build_openblas() {
     curl -L https://github.com/xianyi/OpenBLAS/archive/v${OPENBLAS_VERSION}.tar.gz | tar zxf -
     cd OpenBLAS-${OPENBLAS_VERSION}
 
-    USE_OPENMP=$([ "${SYSTEM}" != 'Darwin' ] && echo "USE_OPENMP=1" || true)
     # Build static library
-    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 ${USE_OPENMP}
+    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 USE_OPENMP=1
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
@@ -50,13 +49,22 @@ build_metis() {
     cd $PREFIX
 }
 
-[ -f "MUMPS_${MUMPS_VERSOIN}.tar.gz" ] || gdown $MUMPS_FILEID
+fix_matlab() {
+    # We need some fixes to MATLAB in order to get gfortran and openmp working correctly
+    if [ "${SYSTEM}" = 'Darwin' ]; then
+        MATLABROOT=$(dirname $(dirname $(which matlab)))
+        cp lib/Darwin-x86_64/lib*.dylib $MATLABROOT/sys/os/maci64
+        ln -s -f libiomp5.dylib $MATLABROOT/sys/os/maci64/libomp.dylib
+    fi
+}
+
+[ -f "MUMPS_${MUMPS_VERSION}.tar.gz" ] || gdown $MUMPS_FILEID
 
 rm -rf MUMPS && mkdir MUMPS && tar xvf MUMPS_${MUMPS_VERSION}.tar.gz --strip-components=1 -C MUMPS
 cp Makefile-${SYSTEM}.inc MUMPS/Makefile.inc
 cp src/Makefile MUMPS/src/Makefile
 cp libseq/Makefile MUMPS/libseq/Makefile
-cp MATLAB/make.inc MUMPS/MATLAB/make.inc
+cp MATLAB/make-${SYSTEM}.inc MUMPS/MATLAB/make.inc
 
 # Build openblas
 [ -f "$PREFIX/lib/${SYSTEM}-${MACHINE}/libopenblas.a" ] || build_openblas
@@ -80,4 +88,5 @@ ${ARCH} ${MAKE} -C MUMPS z zexamples
 
 # Build MATLAB and run tests
 ${ARCH} ${MAKE} -C MUMPS/MATLAB clean d z
+fix_matlab
 (cd MUMPS/MATLAB; matlab -nojvm -batch 'simple_example; zsimple_example')

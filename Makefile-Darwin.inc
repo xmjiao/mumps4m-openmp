@@ -7,8 +7,8 @@
 #
 # conda install -c conda-forge gfortran cmake
 #
-# METIS is built from source code. BLAS and LAPACK use a statically
-# built version without OpenMP.
+# METIS is built from source code. Both OpenBLAS and MUMPS are built
+# statically with OpenMP support.
 
 SYSTEM   = Darwin
 MACHINE  = x86_64
@@ -48,7 +48,7 @@ FL = gfortran -mmacosx-version-min=10.15
 AR = ar vr 
 RANLIB = ranlib
 
-LAPACK = -L$(SYSLIBDIR) -lopenblas
+LAPACK = -L$(SYSLIBDIR) -lopenblas -lgomp
 LIBBLAS =
 LIBOTHERS = -lpthread
 
@@ -59,9 +59,9 @@ LIBSEQ  = $(LAPACK) -L$(topdir)/libseq -lmpiseq
 CDEFS   = -DAdd_
 
 #Begin Optimized options
-OPTF    = -O3
+OPTF    = -O3 -fopenmp
 OPTL    = -O3
-OPTC    = -O3
+OPTC    = -O3 -Xclang -fopenmp
 #End Optimized options
 
 INCS = $(INCSEQ)
