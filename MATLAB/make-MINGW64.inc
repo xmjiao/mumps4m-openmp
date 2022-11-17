@@ -6,8 +6,7 @@ SYSTEM       = MINGW64
 MACHINE      = x86_64
 
 MEX          = matlab -nojvm -batch '"'mex
-LIBFORT     := -L"$(shell dirname $(shell dirname `which gcc`))/lib/gcc/x86_64-w64-mingw32/6.3.0" \
-    LDFLAGS="-fopenmp $$LDFLAGS" -lgfortran -lquadmath
+LIBFORT     := LD=gfortran LDFLAGS="-fopenmp $$LDFLAGS"
 
 # Main MUMPS_DIR
 topdir = ..
