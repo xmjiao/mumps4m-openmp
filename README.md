@@ -1,4 +1,4 @@
-# mumps4m-OPENMP
+# Recipe and Binaries of MUMPS for MATLAB with OpenMP Support
 
 This repository contains the recipe for building multithreaded MUMPS for MATLAB on Linux, Mac, and
 Windows. The multithreading relies on the OpenMP version of `OpenBLAS` as well as some
