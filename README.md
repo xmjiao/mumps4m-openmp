@@ -1,7 +1,8 @@
 # LIBMUMPS4M-OPENMP
 
-This repository contains the recipe for building MUMPS for MATLAB on Linux, Mac, and
-Windows with `OpenBLAS`, `OpenMP`, and `METIS` support.
+This repository contains the recipe for building multithreaded MUMPS for MATLAB on Linux, Mac, and
+Windows. The multithreading relies on the OpenMP version of `OpenBLAS` as well as some
+addition OpenMP features in MUMPS.
 
 ## Binary Distributions of MEX files
 The easiest way for MATLAB users is to download the MEX files prebuilt for your system.
