@@ -1,0 +1,72 @@
+README
+************************************************************************
+*  This MATLAB interface to MUMPS is part of the MUMPS package         *
+*  (see MUMPS's LICENSE for the conditions of use) *
+*  Up-to-date copies of MUMPS can be obtained from the web             *
+*  page http://mumps-solver.org                                        *
+*                                                                      *
+*  THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY	       *
+*  EXPRESSED OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.                 *
+*                                                                      *
+*  More information is available in the main MUMPS userguide and in:   *
+*                                                                      *
+*   [2006] Aurelia Fevre, Jean-Yves L'Excellent and Stephane Pralet    *
+*   MATLAB and Scilab interfaces to MUMPS. LIP Report RR2006-06.       *
+*   Also available as INRIA and ENSEEIHT-IRIT Technical Reports.       *
+*                                                                      *
+************************************************************************
+
+
+ CONTENT OF DIRECTORY:
+
+ README
+ initmumps.m 
+ mumps.m
+ other *.m files: examples of usage
+
+  INSTALLATION:
+
+Please download the MEX files by following the instruction at
+https://github.com/xmjiao/libmumps4m/blob/main/README.md
+
+
+******************************************************************************
+
+ LIMITATION:
+
+ This interface enables you to call MUMPS from MATLAB only in sequential or 
+ multithreaded mode for double precision and double complex versions.
+ For example it does not support:
+  - other versions (single precision arithmetic, parallel version...)
+  - elemental format for the input matrix
+
+******************************************************************************
+
+
+%Example of using MUMPS in matlab
+% initialization of a matlab MUMPS structure
+id = initmumps;
+% here JOB = -1, the call to MUMPS will initialize C and fortran MUMPS structure
+id = dmumps(id);
+% load a sparse matrix
+load lhr01;
+mat = Problem.A;
+% JOB = 6 means analysis+factorization+solve
+id.JOB = 6;
+id.ICNTL(6) = 0;
+% we set the rigth hand side
+id.RHS = ones(size(mat,1),1);
+%call to mumps
+id = dmumps(id,mat);
+% we see that there is a memory problem in INFO(1) and INFO(2)
+id.INFOG(1)
+id.INFOG(2)
+% we activate the numerical maximum transversal 
+id.ICNTL(6) = 6;
+id = dmumps(id,mat);
+norm(mat*id.SOL - ones(size(mat,1),1),'inf')
+% solution OK
+% destroy mumps instance
+id.JOB = -2;
+id = dmumps(id)
+

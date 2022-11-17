@@ -14,7 +14,8 @@ The easiest way for MATLAB users is to download the MEX files prebuilt for your 
 
 
 These MEX files were built with MUMPS v5.3.4, OpenBLAS v0.3.21, METIS 5.1.0, and MATLAB R2022a. They
-work with MUMPS's MATLAB interface. Simply put these files in the `MUMPS_5.3.4/MATLAB` folder.
+work with MUMPS's MATLAB interface, which is included in the [`MATLAB`](https://github.com/xmjiao/libmumps4m/tree/main/MATLAB) directory in this repository.
+Simply download these prebuilt MEX files in the `MATLAB` folder.
 
 Notes:
 1. The MEX files should work out of box on Linux systems in both desktop and command-line mode.
