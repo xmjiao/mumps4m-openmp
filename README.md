@@ -1,4 +1,4 @@
-# LIBMUMPS4M
+# LIBMUMPS4M-OPENMP
 
 This repository contains the recipe for building MUMPS for MATLAB on Linux, Mac, and
 Windows with `OpenBLAS`, `OpenMP`, and `METIS` support.
@@ -8,13 +8,13 @@ The easiest way for MATLAB users is to download the MEX files prebuilt for your 
 
 |        | double precision real | double precision complex   |
 |--------|-----------------------|----------------------------|
-|Linux(1)   | [dmumpsmex.mexa64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/dmumpsmex.mexa64) | [zmumpsmex.mexa64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/zmumpsmex.mexa64)
-|Windows(2) | [dmumpsmex.mexw64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/dmumpsmex.mexw64) | [zmumpsmex.mexw64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/zmumpsmex.mexw64)
-|Mac(3)     | [dmumpsmex.mexmaci64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/dmumpsmex.mexmaci64) | [zmumpsmex.mexmaci64](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/zmumpsmex.mexmaci64)
+|Linux(1)   | [dmumpsmex.mexa64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/dmumpsmex.mexa64) | [zmumpsmex.mexa64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/zmumpsmex.mexa64)
+|Windows(2) | [dmumpsmex.mexw64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/dmumpsmex.mexw64) | [zmumpsmex.mexw64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/zmumpsmex.mexw64)
+|Mac(3)     | [dmumpsmex.mexmaci64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/dmumpsmex.mexmaci64) | [zmumpsmex.mexmaci64](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/zmumpsmex.mexmaci64)
 
 
 These MEX files were built with MUMPS v5.3.4, OpenBLAS v0.3.21, METIS 5.1.0, and MATLAB R2022a. They
-work with MUMPS's MATLAB interface, which is included in the [`MATLAB`](https://github.com/xmjiao/libmumps4m/tree/main/MATLAB) directory in this repository.
+work with MUMPS's MATLAB interface, which is included in the [`MATLAB`](https://github.com/xmjiao/libmumps4m-openmp/tree/main/MATLAB) directory in this repository.
 Simply download these prebuilt MEX files in the `MATLAB` folder.
 
 Notes:
@@ -26,7 +26,7 @@ of simply `-nodesktop` or `-nodisplay`, or JAVA is prone to throwing errors duri
 3. For Mac users, you need to create a soft link `/Applications/MATLAB_<MATLAB_VERSION>.app/sys/os/maci64/libomp.dylib` pointing to `libiomp5.dylib` in the same directory. In addition, you need to add three `gfortran` libraries to MATLAB's `sys/os/maci64` folder, namely namely `libgfortran.5.dylib`, `libquadmath.0.dylib`, `libgcc_s.1.1.dylib`. If you already installed `gfortran` using `anaconda`, `miniconda`, or `homebrew`, you could create soft links to these files in the `/Applications/MATLAB_R2022a.app/sys/os/maci64` folder. Otherwise, it is easier for you to run the following commands:
 ```shell
    ln -s -f libiomp5.dylib /Applications/MATLAB_R2022a.app/sys/os/maci64/libomp.dylib
-   curl -sL https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz | tar zxv - -C /tmp --strip-component 2 "*.dylib"
+   curl -sL https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz | tar zxv - -C /tmp --strip-component 2 "*.dylib"
 ```
 Of course, you should replace `R2022a` with the version of your MATLAB installation.
 
@@ -34,16 +34,16 @@ Of course, you should replace `R2022a` with the version of your MATLAB installat
 ## Binary Distributions of Static Libraries
 
 If you want to link MUMPS into your own MEX files for MATLAB, you can download the following static libraries.
-See https://github.com/xmjiao/libmumps4m/tree/main/recipe/MATLAB to see how these files can be used in the `mex` command.
+See https://github.com/xmjiao/libmumps4m-openmp/tree/main/recipe/MATLAB to see how these files can be used in the `mex` command.
 
 |        | Static libraries |
 |--------|---------------------------------------------------|
-|Linux   | [libmumps_5.3.4_Linux-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_Linux-x86_64.tar.gz)
-|Windows(1) | [libmumps_5.3.4_MINGW64-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_MINGW64-x86_64.tar.gz)
-|Mac     | [libmumps_5.3.4_Darwin-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz)
+|Linux   | [libmumps_5.3.4_Linux-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Linux-x86_64.tar.gz)
+|Windows(1) | [libmumps_5.3.4_MINGW64-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_MINGW64-x86_64.tar.gz)
+|Mac     | [libmumps_5.3.4_Darwin-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz)
 
 ## AUTHOR
-`libmumps4m` was developed and maintained by Xiangmin (Jim) Jiao (xiangmin.jiao@stonybrook.edu) mainly for comparative research. If you need robust and efficient linear solvers for large-scale problems, please also consider the software
+`libmumps4m-openmp` was developed and maintained by Xiangmin (Jim) Jiao (xiangmin.jiao@stonybrook.edu) mainly for comparative research. If you need robust and efficient linear solvers for large-scale problems, please also consider the software
 [hifir](https://github.com/hifirworks/hifir). For a comparison between HIFIR and MUMPS, please see the following papers:
 
 ```bibtex
