@@ -40,3 +40,32 @@ See https://github.com/xmjiao/libmumps4m/tree/main/recipe/MATLAB to see how thes
 |Linux   | [libmumps_5.3.4_Linux-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_Linux-x86_64.tar.gz)
 |Windows(1) | [libmumps_5.3.4_MINGW64-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_MINGW64-x86_64.tar.gz)
 |Mac     | [libmumps_5.3.4_Darwin-x86_64.tar.gz](https://github.com/xmjiao/libmumps4m/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz)
+
+## AUTHOR
+`libmumps4m` was developed and maintained by Xiangmin (Jim) Jiao (xiangmin.jiao@stonybrook.edu) mainly for comparative research. If you need robust and efficient linear solvers for large-scale problems, please also consider the software
+[hifir](https://github.com/hifirworks/hifir). For a comparison between HIFIR and MUMPS, please see the following papers:
+
+```bibtex
+@Article{chen2021hilucsi,
+  author  = {Chen, Qiao and Ghai, Aditi and Jiao, Xiangmin},
+  title   = {{HILUCSI}: Simple, robust, and fast multilevel {ILU} for
+             large-scale saddle-point problems from {PDE}s},
+  journal = {Numer. Linear Algebra Appl.},
+  year    = {2021},
+  number  = {6},
+  pages   = {e2400},
+  volume  = {28},
+  doi     = {10.1002/nla.2400}
+}
+```
+
+```bibtex
+@Article{chen2022hifir,
+  author  = {Chen, Qiao and Jiao, Xiangmin},
+  title   = {{HIFIR}: Hybrid incomplete factorization with iterative refinement
+             for preconditioning ill-conditioned and singular systems},
+  journal = {ACM Trans. Math. Softw.},
+  year    = {2022},
+  doi     = {10.1145/3536165}
+}
+```
