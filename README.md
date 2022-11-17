@@ -42,7 +42,7 @@ See https://github.com/xmjiao/mumps4m-openmp/tree/main/recipe/MATLAB to see how 
 |        | Static libraries |
 |--------|---------------------------------------------------|
 |Linux   | [libmumps_5.3.4_Linux-x86_64.tar.gz](https://github.com/xmjiao/mumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Linux-x86_64.tar.gz)
-|Windows(1) | [libmumps_5.3.4_MINGW64-x86_64.tar.gz](https://github.com/xmjiao/mumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_MINGW64-x86_64.tar.gz)
+|Windows | [libmumps_5.3.4_MINGW64-x86_64.tar.gz](https://github.com/xmjiao/mumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_MINGW64-x86_64.tar.gz)
 |Mac     | [libmumps_5.3.4_Darwin-x86_64.tar.gz](https://github.com/xmjiao/mumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz)
 
 ## AUTHOR
