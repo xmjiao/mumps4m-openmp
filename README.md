@@ -2,7 +2,7 @@
 
 This repository contains the recipe for building multithreaded MUMPS for MATLAB on Linux, Mac, and
 Windows. The multithreading relies on the OpenMP version of `OpenBLAS` as well as some
-addition OpenMP features in MUMPS.
+additional OpenMP features in MUMPS.
 
 ## Binary Distributions of MEX files
 The easiest way for MATLAB users is to download the MEX files prebuilt for your system.
@@ -19,12 +19,12 @@ work with MUMPS's MATLAB interface, which is included in the [`MATLAB`](https://
 Simply download these prebuilt MEX files in the `MATLAB` folder.
 
 Notes:
-1. The MEX files should work out of box on Linux systems in both desktop and command-line mode.
+1. The MEX files should work out of the box on Linux systems in both desktop and command-line mode.
 However, when running in command-line mode, you should start `matlab` with `-nojvm` option instead
-of simply `-nodesktop` or `-nodisplay`, or JAVA is prone to throwing errors during shutdown.
+of simply `-nodesktop` or `-nodisplay`, or JAVA is prone to throwing errors during the shutdown process.
 2. For Windows users, you must also install MinGW-w64 C/C++ compiler, which comes
    with provides libgfortran and libgomp required by OpenBLAS and MUMPS.
-3. For Mac users, you need to create a soft link `/Applications/MATLAB_<MATLAB_VERSION>.app/sys/os/maci64/libomp.dylib` pointing to `libiomp5.dylib` in the same directory. In addition, you need to add three `gfortran` libraries to MATLAB's `sys/os/maci64` folder, namely namely `libgfortran.5.dylib`, `libquadmath.0.dylib`, `libgcc_s.1.1.dylib`. If you already installed `gfortran` using `anaconda`, `miniconda`, or `homebrew`, you could create soft links to these files in the `/Applications/MATLAB_R2022a.app/sys/os/maci64` folder. Otherwise, it is easier for you to run the following commands:
+3. For Mac users, you need to create a soft link `/Applications/MATLAB_<MATLAB_VERSION>.app/sys/os/maci64/libomp.dylib` pointing to `libiomp5.dylib` in the same directory. In addition, you need to add three `gfortran` libraries to MATLAB's `sys/os/maci64` folder, namely `libgfortran.5.dylib`, `libquadmath.0.dylib`, `libgcc_s.1.1.dylib`. If you already installed `gfortran` using `anaconda`, `miniconda`, or `homebrew`, you could create soft links to these files in the `/Applications/MATLAB_R2022a.app/sys/os/maci64` folder. Otherwise, it is easier for you to run the following commands:
 ```shell
    ln -s -f libiomp5.dylib /Applications/MATLAB_R2022a.app/sys/os/maci64/libomp.dylib
    curl -sL https://github.com/xmjiao/mumps4m-openmp/releases/download/v5.3.4/libmumps_5.3.4_Darwin-x86_64.tar.gz | tar zxv - -C /tmp --strip-component 2 "*.dylib"
@@ -34,7 +34,7 @@ Of course, you should replace `R2022a` with the version of your MATLAB installat
 
 ## Binary Distributions of Static Libraries
 
-If you want to link MUMPS into your own MEX files for MATLAB, for example to
+If you want to link MUMPS into your own MEX files for MATLAB, for example, to
 support single-precision arithmetic, you can download the following prebuilt
 static libraries of MUMPS, OpenBLAS, and METIS.
 See https://github.com/xmjiao/mumps4m-openmp/tree/main/recipe/MATLAB to see how these files can be used in the `mex` command.
