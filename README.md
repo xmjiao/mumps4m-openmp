@@ -34,7 +34,9 @@ Of course, you should replace `R2022a` with the version of your MATLAB installat
 
 ## Binary Distributions of Static Libraries
 
-If you want to link MUMPS into your own MEX files for MATLAB, you can download the following static libraries.
+If you want to link MUMPS into your own MEX files for MATLAB, for example to
+support single-precision arithmetic, you can download the following prebuilt
+static libraries of MUMPS, OpenBLAS, and METIS.
 See https://github.com/xmjiao/libmumps4m-openmp/tree/main/recipe/MATLAB to see how these files can be used in the `mex` command.
 
 |        | Static libraries |
