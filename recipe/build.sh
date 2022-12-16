@@ -24,7 +24,7 @@ build_openblas() {
     cd OpenBLAS-${OPENBLAS_VERSION}
 
     # Build static library
-    ${ARCH} ${MAKE} INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 USE_OPENMP=1
+    ${ARCH} ${MAKE} DYNAMIC_ARCH=1 DYNAMIC_OLDER=1 INTERFACE64=0 NO_LAPACKE=1 NO_CBLAS=1 NO_SHARED=1 USE_OPENMP=1
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
