@@ -31,7 +31,7 @@ mumps_lib:    $(incdir)/mumps_int_def.h \
 # Build $(incdir)/mumps_int_def.h, needed by mumps_c_types.h
 $(incdir)/mumps_int_def.h: build_mumps_int_def
 	./build_mumps_int_def > $(incdir)/mumps_int_def.h
-	cp $(incdir)/mumps_int_def.h $(install_incdir)/mumps_int_def.h
+	cp $(incdir)/{mumps_int_def.h,mumps_c_types.h} $(install_incdir)
 
 build_mumps_int_def:build_mumps_int_def.o
 	$(CC) $(OPTL) build_mumps_int_def.o -o build_mumps_int_def
