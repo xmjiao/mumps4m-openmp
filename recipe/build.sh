@@ -28,7 +28,7 @@ build_openblas() {
 
     # Copy static library
     mkdir -p "${PREFIX}/lib/${SYSTEM}-${MACHINE}"
-    cp libopenblas_*-r${OPENBLAS_VERSION}.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}/libopenblas.a"
+    cp libopenblas*-r${OPENBLAS_VERSION}.a "${PREFIX}/lib/${SYSTEM}-${MACHINE}/libopenblas.a"
     cd $PREFIX
 }
 
