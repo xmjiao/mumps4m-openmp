@@ -4,9 +4,9 @@ set -e
 
 export SYSTEM=$(uname -s | cut -d'_' -f1)
 export MACHINE=x86_64
-export MUMPS_VERSION=5.3.4
+export MUMPS_VERSION=5.5.1
 export MUMPS_MAJOR_VERSION=$(echo ${MUMPS_VERSION} | cut -d'.' -f1)
-MUMPS_FILEID=1s9TH393i_9AK3qvfkT6KoVnZL5sCrwx2
+MUMPS_FILEID=1_ewOpU2tLaN6NEvJ8s2EFbMTjFISF3_v
 
 OPENBLAS_VERSION=0.3.21
 METIS_VERSION=5.1.0
@@ -74,16 +74,15 @@ cp MATLAB/make-${SYSTEM}.inc MUMPS/MATLAB/make.inc
 
 # Build shared objects for single-precision real and complex arithemetic
 ${ARCH} ${MAKE} -C MUMPS/libseq clean
-${ARCH} ${MAKE} -C MUMPS clean
-${ARCH} ${MAKE} -C MUMPS s sexamples
+${ARCH} ${MAKE} -C MUMPS clean s
 (cd MUMPS/examples; ./ssimpletest < input_simpletest_real)
-${ARCH} ${MAKE} -C MUMPS c cexamples
+${ARCH} ${MAKE} -C MUMPS clean c
 (cd MUMPS/examples; ./csimpletest < input_simpletest_cmplx)
 
 # Build shared objects for double-precision real and complex arithemetic
-${ARCH} ${MAKE} -C MUMPS d dexamples
+${ARCH} ${MAKE} -C MUMPS clean d
 (cd MUMPS/examples; ./dsimpletest < input_simpletest_real)
-${ARCH} ${MAKE} -C MUMPS z zexamples
+${ARCH} ${MAKE} -C MUMPS clean z
 (cd MUMPS/examples; ./zsimpletest < input_simpletest_cmplx)
 
 # Build MATLAB and run tests

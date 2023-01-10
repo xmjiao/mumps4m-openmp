@@ -1,5 +1,5 @@
 #
-#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
+#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.5.1
 #
 # These settings for a PC with MATLAB and MINGW64 installed. METIS is built
 # from source code. BLAS and LAPACK use a statically built libopenblas.a.
@@ -8,7 +8,7 @@
 
 SYSTEM        = MINGW64
 MACHINE       = x86_64
-MUMPS_VERSION = 5.3.4
+MUMPS_VERSION = 5.5.1
 
 SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 

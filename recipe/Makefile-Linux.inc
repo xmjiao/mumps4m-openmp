@@ -1,5 +1,5 @@
 #
-#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
+#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.5.1
 #
 # These settings for a PC under Debian/linux with gfortran.
 # The required system tools can be installed by installed using the command:
@@ -11,7 +11,7 @@
 
 SYSTEM   = Linux
 MACHINE  = x86_64
-MUMPS_VERSION = 5.3.4
+MUMPS_VERSION = 5.5.1
 
 SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 

@@ -1,5 +1,5 @@
 #
-#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.3.4
+#  This file is based on Make.inc/Makefile.debian.SEQ of MUMPS 5.5.1
 #
 # These settings for a Mac with Xcode command-line tools and gfortran.
 # The required system tools can be installed by setting up the x86_64
@@ -12,7 +12,7 @@
 
 SYSTEM   = Darwin
 MACHINE  = x86_64
-MUMPS_VERSION = 5.3.4
+MUMPS_VERSION = 5.5.1
 
 SYSLIBDIR = $(topdir)/../lib/$(SYSTEM)-$(MACHINE)
 
