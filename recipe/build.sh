@@ -53,7 +53,10 @@ fix_matlab() {
     # We need some fixes to MATLAB in order to get gfortran and openmp working correctly
     if [ "${SYSTEM}" = 'Darwin' ]; then
         MATLABROOT=$(dirname $(dirname $(which matlab)))
-        cp lib/Darwin-x86_64/lib*.dylib $MATLABROOT/sys/os/maci64
+        [ -f "$MATLABROOT/sys/os/maci64/libgfortran.5.dylib" ] || \
+            cp lib/Darwin-x86_64/lib*.*.dylib $MATLABROOT/sys/os/maci64
+        [ -f "$MATLABROOT/sys/os/maci64/libquadmath.dylib" ] || \
+            cp lib/Darwin-x86_64/libquadmath.dylib $MATLABROOT/sys/os/maci64
         ln -s -f libiomp5.dylib $MATLABROOT/sys/os/maci64/libomp.dylib
     fi
 }
