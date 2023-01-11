@@ -15,4 +15,5 @@ recipe/lib/*
 *.mex*
 *.stamps
 MUMPS/
+MUMPS_*/
 *.tar.gz
